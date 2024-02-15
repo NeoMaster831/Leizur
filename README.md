@@ -4,7 +4,8 @@
 
 > *as fast as you can,*
 
-Leizur is open-source osu!lazer cheat, is under development. After completing development, it'll be switched to private.
+Leizur is open-source osu!lazer cheat, is under development.
+It is currently going on private.
 
 # Requirements
 
