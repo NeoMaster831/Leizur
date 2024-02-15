@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 4267 4244 )
 // Gui.h: GUI Base of all GUIs.
 // Made of ImGui
 // ImGui Assert Level Handling.
@@ -11,17 +12,17 @@
 
 namespace Gui
 {
-	static const int WIDTH = 800;
-	static const int HEIGHT = 600;
+	inline const int WIDTH = 800;
+	inline const int HEIGHT = 600;
 
-	static HWND Window = nullptr;
-	static WNDCLASSEXW WindowClass = {};
-	static POINTS LastCursorPosition;
-	static PDIRECT3D9 Direct3D = nullptr;
-	static LPDIRECT3DDEVICE9 Device = nullptr;
-	static D3DPRESENT_PARAMETERS PresentParameters = {};
+	inline HWND Window = nullptr;
+	inline WNDCLASSEXW WindowClass = {};
+	inline POINTS LastCursorPosition;
+	inline PDIRECT3D9 Direct3D = nullptr;
+	inline LPDIRECT3DDEVICE9 Device = nullptr;
+	inline D3DPRESENT_PARAMETERS PresentParameters = {};
 
-	static bool Stay = true;
+	inline bool Stay = true;
 
 	void CreateHWindow(const wchar_t* windowName, const wchar_t* className);
 	void DestroyHWindow();

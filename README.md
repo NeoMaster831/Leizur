@@ -23,8 +23,8 @@ Also, it uses DirectX 9 and GDI+, if you can't run you should check those.
 Go project, build, and use. It requires [Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/).
 
 ## To-Dos
-- [ ] Make Parser
-- [ ] Make Utilities
+- [ ] Make Parser - *90%* (It's almost done, but it has so many bugs)
+- [ ] Make Utilities - *10%*
 - [ ] Make Cheats
 - [x] Make Bypass - **DONE!**
 - [ ] Make UI - *20%*

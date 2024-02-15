@@ -1,4 +1,5 @@
 #include "Gdi.h"
+#include "../Osu/Osu.h"
 #include <thread>
 
 LRESULT CALLBACK GdiWindowProcess(
@@ -56,12 +57,23 @@ void Gdi::Draw(Bitmap* pBitmap) {
 	Color color(128, 255, 0, 0);
 	SolidBrush brush(color);
 
-	POINT cursorPos;
-	GetCursorPos(&cursorPos);
-	INT x = cursorPos.x;
-	INT y = cursorPos.y;
+	int x = 0, y = 0;
+	if (OsuLive::lastBeatmapHash == "No Beatmap") return;
+	double timing = OsuLive::osu.GetElaspedTime();
 
-	graphics.FillEllipse(&brush, x - 25, y - 25, 50, 50);
+	try {
+		auto point = OsuLive::currentBeatmap.GetReqCursorAtSpecificTime(timing - 50.0);
+		point = OsuLive::Translate2RealCoords(point);
+		if (point == INVALID_COORDS) return;
+		x = (int)point.x;
+		y = (int)point.y;
+	}
+	catch (int expn) {
+		if (expn == 0x12000007 || expn == 0x12000008 || expn == 0x12000009) return;
+	}
+
+	graphics.FillEllipse(&brush, x - 75, y - 75, 150, 150);
+	SetCursorPos(x, y);
 }
 
 void Gdi::Render() {
@@ -98,7 +110,7 @@ void Gdi::Render() {
 void Gdi::Update() {
 	while (true) {
 		Render();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 480));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 240));
 		// osu's gameplay fps is 480
 	}
 }

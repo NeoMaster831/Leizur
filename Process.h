@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 4267 4244 )
 #include "Memory.h"
 #include <map>
 #include <string>

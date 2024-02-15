@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 4267 4244 )
 #include <Windows.h>
 #include <vector>
 
@@ -31,7 +32,7 @@ typedef struct _WRITE_CMD_ARGS {
 	size_t sz;
 } WRITE_CMD_ARGS, * PWRITE_CMD_ARGS;
 
-static NTSTATUS(*queryFunc)(PUSERMODE_COMMAND, uintptr_t) = nullptr;
+inline NTSTATUS(*queryFunc)(PUSERMODE_COMMAND, uintptr_t) = nullptr;
 
 static bool MemInit() {
 	auto user32dll = LoadLibrary(L"user32.dll");
@@ -55,8 +56,9 @@ static std::pair<T, bool> RPM(DWORD processId, uintptr_t _where) {
 
 	T ret;
 	rpmQuery.retrn = &ret;
-
+	
 	auto result = queryFunc(&rpmQuery, 0);
+	
 	if (result != 0) return { ret, false };
 	else return { ret, true };
 }

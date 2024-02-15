@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 4267 4244 )
 #include <Windows.h>
 #include <gdiplus.h>
 
@@ -8,13 +9,13 @@ using namespace Gdiplus;
 
 namespace Gdi {
 
-	static const int WIDTH = GetSystemMetrics(SM_CXSCREEN);
-	static const int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
+	inline const int WIDTH = GetSystemMetrics(SM_CXSCREEN);
+	inline const int HEIGHT = GetSystemMetrics(SM_CYSCREEN);
 	
-	static HWND Window = nullptr;
-	static WNDCLASSEXW WindowClass = {};
+	inline HWND Window = nullptr;
+	inline WNDCLASSEXW WindowClass = {};
 
-	static ULONG_PTR GdiPlusToken;
+	inline ULONG_PTR GdiPlusToken;
 
 	void CreateHWindow(const wchar_t* windowName, const wchar_t* className);
 	void DestroyHWindow();

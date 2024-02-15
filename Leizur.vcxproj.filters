@@ -51,7 +51,7 @@
     <ClCompile Include="GUI\Gdi.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Osu\OsuParser.cpp">
+    <ClCompile Include="Osu\OsuUtils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="GUI\Gdi.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Osu\OsuParser.h">
+    <ClInclude Include="Osu\OsuUtils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

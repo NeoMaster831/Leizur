@@ -3,6 +3,8 @@
 #include "../ImGui/imgui.h"
 #include "../ImGui/imgui_impl_dx9.h"
 #include "../ImGui/imgui_impl_win32.h"
+#include "../Osu/Osu.h"
+#include "Gdi.h"
 #include <windowsx.h>
 #include <thread>
 
@@ -176,14 +178,36 @@ void Gui::EndRender() {
 void Gui::Render() {
 	ImGui::SetNextWindowPos({ 0, 0 });
 	ImGui::SetNextWindowSize({ WIDTH, HEIGHT });
-	ImGui::Begin("Test",
+	ImGui::Begin("Leizur",
 		&Stay,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
-
-	ImGui::Button("Hello");
-	char buf[100];
-	_itoa_s((int)Stay, buf, 10);
-	ImGui::LabelText(buf, "Ginga");
+	
+	ImGui::LabelText("", OsuLive::lastBeatmapHash.c_str());
+	if (OsuLive::lastBeatmapHash != "No Beatmap" && OsuLive::currentBeatmap.Title != "null") {
+		ImGui::LabelText(OsuLive::currentBeatmap.Title.c_str(), OsuLive::currentBeatmap.Artist.c_str());
+		ImGui::LabelText(std::to_string(OsuLive::currentBeatmap.BeatmapVersion).c_str(),
+			OsuLive::currentBeatmap.Version.c_str());
+		ImGui::LabelText(std::to_string(OsuLive::currentBeatmap.ApproachRate).c_str(),
+			std::to_string(OsuLive::currentBeatmap.SliderMultiplier).c_str());
+		
+		
+		try {
+			auto point = OsuLive::currentBeatmap.GetReqCursorAtSpecificTime(OsuLive::osu.GetElaspedTime());
+			ImGui::LabelText(std::to_string(point.y).c_str(),
+				std::to_string(point.x).c_str());
+			point = OsuLive::Translate2RealCoords(point);
+			ImGui::LabelText(std::to_string(point.y).c_str(),
+				std::to_string(point.x).c_str());
+			auto ho = OsuLive::currentBeatmap.GetNextHitObject(OsuLive::osu.GetElaspedTime());
+			if (ho.type & (1 << 1)) {
+				ImGui::LabelText("slides", std::to_string(ho.sliderParam.slides).c_str());
+			}
+		}
+		catch (int expn) {
+			if (expn == 0x12000007 || expn == 0x12000008 || expn == 0x12000009 || expn == 0x1200000a ) goto Cont;
+		}
+	}
+Cont:
 	ImGui::End();
 }
 
