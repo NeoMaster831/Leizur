@@ -201,6 +201,15 @@ void Gui::Render() {
 			auto ho = OsuLive::currentBeatmap.GetNextHitObject(OsuLive::osu.GetElaspedTime());
 			if (ho.type & (1 << 1)) {
 				ImGui::LabelText("slides", std::to_string(ho.sliderParam.slides).c_str());
+				
+				double bl = OsuLive::currentBeatmap.GetCurrentTimingPoint(OsuLive::osu.GetElaspedTime()).beatLength > 0.0 ? 1.0 : abs(100.0 / OsuLive::currentBeatmap.GetCurrentTimingPoint(
+				OsuLive::osu.GetElaspedTime()).beatLength);
+
+				ImGui::LabelText("sliderDuration", std::to_string(ho.sliderParam.calculateDuration(
+					OsuLive::currentBeatmap.SliderMultiplier,
+					bl,
+					OsuLive::currentBeatmap.GetCurrentTimingPoint(OsuLive::osu.GetElaspedTime()).GetCurrentBeatLength())).c_str());
+
 			}
 		}
 		catch (int expn) {

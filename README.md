@@ -24,7 +24,8 @@ Also, it uses DirectX 9 and GDI+, if you can't run you should check those.
 Go project, build, and use. It requires [Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/).
 
 ## To-Dos
-- [ ] Make Parser - *90%* (It's almost done, but it has so many bugs)
+- [ ] Make Parser - *96%* (It's almost done, but it has so many bugs)
++ - [ ] Make Catmull Curve Parser (who tf uses catmull nowadays...)
 - [ ] Make Utilities - *10%*
 - [ ] Make Cheats
 - [x] Make Bypass - **DONE!**

@@ -333,15 +333,18 @@ HitObject Beatmap::GetNextHitObject(double elaspedTime) {
 		hitObjectCmp
 	);
 
-	auto currentTiming = GetCurrentTimingPoint(elaspedTime);
+	auto currentTiming = GetCurrentTimingPoint(elaspedTime + 0.0001);
 	auto bl = currentTiming.beatLength > 0.0 ? 1.0 : abs(100.0 / currentTiming.beatLength);
 
 	if (it != this->hitObjects.begin()) {
 		auto prev = std::prev(it);
+		auto prevTiming = GetCurrentTimingPoint(prev->time + 0.0001);
+		auto kbl = prevTiming.beatLength > 0.0 ? 1.0 : abs(100.0 / prevTiming.beatLength);
+
 		if (prev->type & (1 << 1)) { // Slider
 			if (prev->sliderParam.calculateDuration(this->SliderMultiplier,
-				bl,
-				currentTiming.GetCurrentBeatLength()) + prev->time > elaspedTime)
+				kbl,
+				prevTiming.GetCurrentBeatLength()) + prev->time > elaspedTime)
 				return *prev;
 			else if (it == this->hitObjects.end()) throw 0x12000008;
 			else return *it;
@@ -361,7 +364,7 @@ HitObject Beatmap::GetNextHitObject(double elaspedTime) {
 
 Vector2 Beatmap::GetReqCursorAtSpecificTime(double time) {
 	auto hitObject = GetNextHitObject(time);
-	auto timingPoint = GetCurrentTimingPoint(time);
+	auto timingPoint = GetCurrentTimingPoint(hitObject.time + 0.0001);
 	auto bl = timingPoint.beatLength > 0.0 ? 1.0 : abs(100.0 / timingPoint.beatLength);
 
 	if (hitObject.type & (1 << 1)) {
