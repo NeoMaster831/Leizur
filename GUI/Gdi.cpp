@@ -1,5 +1,6 @@
 #include "Gdi.h"
 #include "../Osu/Osu.h"
+#include "../Modules/AimAssist.h"
 #include <thread>
 
 LRESULT CALLBACK GdiWindowProcess(
@@ -54,26 +55,7 @@ void Gdi::Begin() {
 
 void Gdi::Draw(Bitmap* pBitmap) {
 	Graphics graphics(pBitmap);
-	Color color(128, 255, 0, 0);
-	SolidBrush brush(color);
-
-	int x = 0, y = 0;
-	if (OsuLive::lastBeatmapHash == "No Beatmap") return;
-	double timing = OsuLive::osu.GetElaspedTime();
-
-	try {
-		auto point = OsuLive::currentBeatmap.GetReqCursorAtSpecificTime(timing - 50.0);
-		point = OsuLive::Translate2RealCoords(point);
-		if (point == INVALID_COORDS) return;
-		x = (int)point.x;
-		y = (int)point.y;
-	}
-	catch (int expn) {
-		if (expn == 0x12000007 || expn == 0x12000008 || expn == 0x12000009) return;
-	}
-
-	graphics.FillEllipse(&brush, x - 75, y - 75, 150, 150);
-	SetCursorPos(x, y);
+	//AimAssistV1::RenderGdi(&graphics);
 }
 
 void Gdi::Render() {
@@ -111,11 +93,16 @@ void Gdi::Update() {
 	while (true) {
 		Render();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 240));
-		// osu's gameplay fps is 480
 	}
 }
 
 void Gdi::End() {
 	ShutdownGdiPlus();
 	DestroyHWindow();
+}
+
+void GdiUtils::DrawCircle(Graphics* pGraphics, Vector2 at, double radius, Color color) {
+	SolidBrush brush(color);
+	pGraphics->FillEllipse(&brush, 
+		(INT)(at.x - radius), (INT)(at.y - radius), (INT)(radius * 2), (INT)(radius * 2));
 }

@@ -1,5 +1,5 @@
 #pragma once
-#pragma warning( disable : 4267 4244 )
+#pragma warning( disable : 4267 4244 4101 )
 // Osu.h: About osu process itself, and osu hack.
 // Errors
 /*
@@ -11,18 +11,20 @@
 #include "OsuUtils.h"
 #define INVALID_COORDS Vector2{ -69697474.0f, -747476969.0f }
 
-#define TOOSU_XS 0.4444444
-#define TOOSU_YS 0.4444444
+#define TOOSU_S 0.4444444
 #define TOOSU_XO -170.6666
 #define TOOSU_YO -56
 
-#define TOREAL_XS 2.25
-#define TOREAL_YS 2.25
+#define TOREAL_S 2.25
 #define TOREAL_XO 384
 #define TOREAL_YO 126
 
 const LPCWSTR OSU_PROCESS_NAME = L"osu!.exe";
 const LPCWSTR OSU_RESOURCES_DLL = L"osu.Game.Resources.dll";
+
+static double CS2Radius(double cs) {
+	return 54.4 - 4.48 * cs;
+}
 
 class Osu
 {
@@ -50,7 +52,7 @@ public:
 
 	double GetElaspedTime() {
 		return osuProcess.GetPointerChainVal<double>(
-			OSU_RESOURCES_DLL, ElaspedTimeGlobal) - 15.0;
+			OSU_RESOURCES_DLL, ElaspedTimeGlobal) - 65.0;
 	}
 
 	bool GetActive() {
@@ -81,9 +83,14 @@ namespace OsuLive {
 	inline Osu osu;
 	inline Beatmap currentBeatmap = Beatmap();
 	inline std::string lastBeatmapHash = "No Beatmap";
+	inline double lastCS = 0.0;
+	inline Vector2 lastReq = INVALID_COORDS;
 
 	Vector2 Translate2OsuCoords(Vector2 realCoords);
 	Vector2 Translate2RealCoords(Vector2 osuCoords);
+
+	double Translate2OsuLen(double realLen);
+	double Translate2RealLen(double osuLen);
 
 	void Start();
 	void Update();

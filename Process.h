@@ -28,7 +28,8 @@ public:
 	template <class T>
 	T ReadMemory(uintptr_t _where) {
 		auto res = RPM<T>(this->pid, _where);
-		if (!res.second) throw 0x4b000004;
+		if (!res.second) 
+			throw 0x4b000004;
 		return res.first;
 	}
 

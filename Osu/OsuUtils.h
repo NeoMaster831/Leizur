@@ -21,7 +21,7 @@
 #include <set>
 #include "../Defines.h"
 
-#define TGFRAME 360
+#define TGFRAME 240
 
 const std::set<int> SUPPORTED_VERSIONS = {
 	7, 8, 9, 10, 11, 12, 13, 14

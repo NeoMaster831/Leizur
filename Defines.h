@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <Windows.h>
 #pragma warning( disable : 4267 4244 )
 
-#define TGFRAME_CURVES 360
+#define TGFRAME_CURVES 240
 
 struct Vector2 {
 	double x, y;
@@ -43,6 +45,47 @@ static int binomialCoeff(int n, int k) {
 
 static double lengthPoints(Vector2 from, Vector2 to) {
 	return sqrt(pow(from.x - to.x, 2) + pow(from.y - to.y, 2));
+}
+
+static Vector2 rotate(Vector2 center, Vector2 target, double radians) {
+	auto c = cos(radians);
+	auto s = sin(radians);
+
+	return Vector2{
+		(float)((c * (target.x - center.x)) - (s * (target.y - center.y)) + center.x),
+		(float)((s * (target.x - center.x)) + (c * (target.y - center.y)) + center.y)
+	};
+}
+
+static Vector2 GetRealPosition() {
+	POINT pt;
+	GetCursorPos(&pt);
+	auto ret = Vector2{ (double)pt.x, (double)pt.y };
+	return ret;
+}
+
+static Vector2 vectorBetweenPoints(Vector2 a, Vector2 b) {
+	return Vector2{ b.x - a.x, b.y - a.y };
+}
+
+static double vectorMagnitude(Vector2 v) {
+	return sqrt(v.x * v.x + v.y * v.y);
+}
+
+static double dotProduct(Vector2 a, Vector2 b) {
+	return a.x * b.x + a.y * b.y;
+}
+
+static double angleBetweenVectors(Vector2 a, Vector2 b) {
+	double dot = dotProduct(a, b);
+	double mag1 = vectorMagnitude(a);
+	double mag2 = vectorMagnitude(b);
+	double cosTheta = dot / (mag1 * mag2);
+	return acos(cosTheta);
+}
+
+static bool getDirection(Vector2 a, Vector2 b, Vector2 c) {
+	return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) < 0;
 }
 
 class Linear {
@@ -134,20 +177,6 @@ class Perfect {
 
 	}
 
-	bool getDirection() {
-		return ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)) < 0;
-	}
-
-	Vector2 rotate(Vector2 center, Vector2 target, double radians) {
-		auto c = cos(radians);
-		auto s = sin(radians);
-
-		return Vector2{
-			(float)((c * (target.x - center.x)) - (s * (target.y - center.y)) + center.x),
-			(float)((s * (target.x - center.x)) + (c * (target.y - center.y)) + center.y)
-		};
-	}
-
 public:
 
 	Perfect(Vector2 p1, Vector2 p2, Vector2 p3, double length) {
@@ -161,7 +190,7 @@ public:
 		double radius = circle.second;
 
 		auto radians = this->length / radius;
-		if (getDirection()) radians *= -1;
+		if (getDirection(p1, p2, p3)) radians *= -1;
 
 		auto step = radians / (double)frames;
 		std::vector<Vector2> extracted;

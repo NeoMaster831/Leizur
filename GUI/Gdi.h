@@ -1,5 +1,7 @@
 #pragma once
 #pragma warning( disable : 4267 4244 )
+
+#include "../Defines.h"
 #include <Windows.h>
 #include <gdiplus.h>
 
@@ -29,4 +31,9 @@ namespace Gdi {
 	void Begin();
 	void Update();
 	void End();
+}
+
+namespace GdiUtils {
+
+	void DrawCircle(Graphics* pGraphics, Vector2 at, double radius, Color color);
 }

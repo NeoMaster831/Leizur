@@ -144,6 +144,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Protect\IATHook.cpp" />
+    <ClCompile Include="Modules\AimAssist.cpp" />
     <ClCompile Include="GUI\Gdi.cpp" />
     <ClCompile Include="GUI\Gui.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -159,6 +161,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Protect\IATHook.h" />
+    <ClInclude Include="Modules\AimAssist.h" />
     <ClInclude Include="GUI\Gdi.h" />
     <ClInclude Include="GUI\Gui.h" />
     <ClInclude Include="ImGui\imconfig.h" />
