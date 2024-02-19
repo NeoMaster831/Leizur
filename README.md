@@ -26,9 +26,9 @@ Go project, build, and use. It requires [Visual Studio 2022](https://visualstudi
 - [ ] Make Parser - *96.1%* (It's almost done, but it has so many bugs)
 + - [ ] Make Catmull Curve Parser (who tf uses catmull nowadays...)
 - [ ] Make Utilities - *10%*
-- [ ] Make Cheats - 0.1%
-+ - [ ] Make Aim Assist - 1%
+- [ ] Make Cheats - 0.2%
++ - [ ] Make Aim Assist - 2%
 - [x] Make Bypass - **DONE!**
 + - [ ] Make IAT Hook for protecting SetCursorPos, or something 
 - [ ] Make UI - *20%*
-- [ ] Make GDI - *20.1%*
+- [ ] Make GDI - *20.09%*

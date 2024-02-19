@@ -8,7 +8,7 @@
 /*
 AimAssistV1 - Made by Wane.
 Description:
-	idk why I made this cheat, its absolute hell tho
+	Linear interpolation
 */
 namespace AimAssistV1
 {
@@ -31,9 +31,6 @@ namespace AimAssistV1
 	// modify cursor area. Draws on cursor.
 	inline double dWorkCursorRadius = 128.0;
 
-	// Rotate Ratio
-	inline double dRotateRatio = 0.0075;
-
 	// Refresh Rate in microseconds.
 	inline long long dRefreshRate = 1'000'000 / 2880;
 
@@ -48,10 +45,9 @@ namespace AimAssistV1
 
 	// Work Cursor user multiplier. The final expression is:
 	// WorkCursorRadius * WorkRadMul = FinalWorkRad
-	inline double uWorkRadMul = 3.5;
+	inline double uWorkRadMul = 0.6;
 
-	// Rotate Ratio
-	inline double uRotateRatio = 1.0;
+	inline double uSpeed = 3.5;
 
 	void Routine();
 

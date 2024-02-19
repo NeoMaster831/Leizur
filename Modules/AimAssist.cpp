@@ -7,12 +7,8 @@ void GdiUtils::DrawCircle(Gdiplus::Graphics* pGraphics, Vector2 at, double radiu
 
 bool AimAssistV1::Check() {
 	try {
-		auto reqPos = OsuLive::lastReq;
-		auto lCurrentCircleRadius = CS2Radius(OsuLive::lastCS);
-		auto finalStopRad = lCurrentCircleRadius * dStopCircleMultiplier * uStopRadMul;
 		Vector2 vCurPos = OsuLive::osu.GetCvrtPosition();
-
-		if (lengthPoints(reqPos, vCurPos) < finalStopRad) return false;
+		auto reqPos = OsuLive::lastReq;
 
 		auto finalWorkRad = dWorkCursorRadius * uWorkRadMul;
 		if (lengthPoints(reqPos, vCurPos) > finalWorkRad) return false;
@@ -26,25 +22,40 @@ bool AimAssistV1::Check() {
 
 void AimAssistV1::Move() {
 	try {
+		Vector2 vCurPos = OsuLive::osu.GetCvrtPosition();
 		auto vRealCurPos = GetRealPosition();
 		auto reqPos = OsuLive::lastReq;
 		auto realReqPos = OsuLive::Translate2RealCoords(reqPos);
 
-		Vector2 BA = vectorBetweenPoints(lLastFrameCursor, vRealCurPos);
-		Vector2 BC = vectorBetweenPoints(lLastFrameCursor, realReqPos);
-
-		double angleABC = angleBetweenVectors(BA, BC);
-		double finalMovingAmount = angleABC * dRotateRatio * uRotateRatio;
-
-		if (getDirection(lLastFrameCursor, vRealCurPos, realReqPos)) {
-			finalMovingAmount *= -1;
+		auto lCurrentCircleRadius = CS2Radius(OsuLive::lastCS);
+		auto finalStopRad = lCurrentCircleRadius * dStopCircleMultiplier * uStopRadMul;
+		
+		double deltaX = 0.0;
+		double deltaY = 0.0;
+		if (!(lengthPoints(reqPos, vCurPos) < finalStopRad)
+			&& lengthPoints(vRealCurPos, realReqPos) < lengthPoints(lLastFrameCursor, realReqPos)) {
+			deltaX = (realReqPos.x - vRealCurPos.x) / 100.0;
+			deltaY = (realReqPos.y - vRealCurPos.y) / 100.0;
+			auto varyX = (vRealCurPos.x - lLastFrameCursor.x) / 100.0;
+			auto varyY = (vRealCurPos.y - lLastFrameCursor.y) / 100.0;
+			deltaX = (deltaX + varyX) * uSpeed;
+			deltaY = (deltaY + varyY) * uSpeed;
+		}
+		else {
+			deltaX = (lLastFrameCursor.x - vRealCurPos.x) / 10.0;
+			deltaY = (lLastFrameCursor.y - vRealCurPos.y) / 10.0;
 		}
 
-		Vector2 cursorPoint = rotate(lLastFrameCursor, vRealCurPos, finalMovingAmount);
+		Vector2 cursorPoint = Vector2{
+			vRealCurPos.x + deltaX,
+			vRealCurPos.y + deltaY
+		};
+
 		int x = (int)cursorPoint.x;
 		int y = (int)cursorPoint.y;
 		if (x < 0 || x >= 1920 || y < 0 || y >= 1080) return;
-		SetCursorPos((int)cursorPoint.x, (int)cursorPoint.y);
+
+		SetCursorPos(x, y);
 	}
 	catch (int expn) { return; }
 }
