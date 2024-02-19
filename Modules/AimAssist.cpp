@@ -7,7 +7,8 @@ void GdiUtils::DrawCircle(Gdiplus::Graphics* pGraphics, Vector2 at, double radiu
 
 bool AimAssistV1::Check() {
 	try {
-		Vector2 vCurPos = OsuLive::osu.GetCvrtPosition();
+		Vector2 vCurRealPos = GetRealPosition();
+		auto vCurPos = OsuLive::Translate2OsuCoords(vCurRealPos);
 		auto reqPos = OsuLive::lastReq;
 
 		auto finalWorkRad = dWorkCursorRadius * uWorkRadMul;
@@ -22,8 +23,8 @@ bool AimAssistV1::Check() {
 
 void AimAssistV1::Move() {
 	try {
-		Vector2 vCurPos = OsuLive::osu.GetCvrtPosition();
 		auto vRealCurPos = GetRealPosition();
+		auto vCurPos = OsuLive::Translate2OsuCoords(vRealCurPos);
 		auto reqPos = OsuLive::lastReq;
 		auto realReqPos = OsuLive::Translate2RealCoords(reqPos);
 
@@ -32,7 +33,7 @@ void AimAssistV1::Move() {
 		
 		double deltaX = 0.0;
 		double deltaY = 0.0;
-		if (!(lengthPoints(reqPos, vCurPos) < finalStopRad)
+		if (lengthPoints(reqPos, vCurPos) > finalStopRad
 			&& lengthPoints(vRealCurPos, realReqPos) < lengthPoints(lLastFrameCursor, realReqPos)) {
 			deltaX = (realReqPos.x - vRealCurPos.x) / 100.0;
 			deltaY = (realReqPos.y - vRealCurPos.y) / 100.0;
@@ -71,6 +72,7 @@ void AimAssistV1::RenderGdi(Gdiplus::Graphics* pGraphics) {
 
 	try {
 		Vector2 vCurRealPos = GetRealPosition();
+		auto vCurPos = OsuLive::Translate2OsuCoords(vCurRealPos);
 		auto reqPos = OsuLive::lastReq;
 		auto lCurrentCircleRadius = CS2Radius(OsuLive::lastCS);
 		if (reqPos != INVALID_COORDS)
@@ -107,7 +109,6 @@ void AimAssistV1::Routine() {
 		
 		if (Check())
 			Move();
-		else
-			lLastFrameCursor = GetRealPosition();
+		lLastFrameCursor = GetRealPosition();
 	}
 }

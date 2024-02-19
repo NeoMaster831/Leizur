@@ -21,6 +21,7 @@
 
 const LPCWSTR OSU_PROCESS_NAME = L"osu!.exe";
 const LPCWSTR OSU_RESOURCES_DLL = L"osu.Game.Resources.dll";
+const LPCWSTR OSU_FRAMEWORK_DLL = L"osu.Framework.dll";
 
 static double CS2Radius(double cs) {
 	return 54.4 - 4.48 * cs;
@@ -31,16 +32,13 @@ class Osu
 
 	// Overcalculated by 15.0
 	std::vector<uint64_t> ElaspedTimeGlobal =
-	{ 0x5EABD54, 0xB0, 0xD0, 0x4B8, 0x1F8, 0x8, 0x8, 0x38 };
+	{ 0x2024, 0xd0, 0xa0, 0x10, 0x4a8, 0x1e0, 0x8, 0x10, 0x20 };
 
 	std::vector<uint64_t> IsActive =
-	{ 0x5EABD54, 0x80, 0xD8, 0x310, 0x40, 0x18, 0x10 };
-
-	std::vector<uint64_t> CvrtPosition =
-	{ 0x5EABD54, 0x80, 0xD8, 0x388, 0x10, 0x388, 0x10, 0x318 };
+	{ 0x2024, 0xd0, 0x4f8, 0x320, 0x588, 0x208, 0x40, 0x18, 0x10 };
 
 	std::vector<uint64_t> CurrentBeatmapHash =
-	{ 0x5EABD54, 0xB0, 0x40, 0xC0, 0xA08, 0x550, 0x358, 0x20, 0x8, 0x50, 0xC };
+	{ 0x2024, 0xd0, 0x580, 0xC8, 0x220, 0x430, 0x20, 0x8, 0x50, 0xC };
 
 	Process osuProcess;
 
@@ -52,28 +50,17 @@ public:
 
 	double GetElaspedTime() {
 		return osuProcess.GetPointerChainVal<double>(
-			OSU_RESOURCES_DLL, ElaspedTimeGlobal) - 65.0;
+			OSU_FRAMEWORK_DLL, ElaspedTimeGlobal) - 15.0;
 	}
 
 	bool GetActive() {
 		return osuProcess.GetPointerChainVal<bool>(
-			OSU_RESOURCES_DLL, IsActive);
-	}
-
-	Vector2 GetCvrtPosition() {
-		try {
-			return osuProcess.GetPointerChainVal<Vector2f>(
-				OSU_RESOURCES_DLL, CvrtPosition).Translate();
-		}
-		catch (int expn) {
-			if (expn == 0x4b000004) return INVALID_COORDS;
-		}
-		return INVALID_COORDS;
+			OSU_FRAMEWORK_DLL, IsActive);
 	}
 
 	std::string GetCurrentBeatmapHash() {
 		return osuProcess.GetPointerChainVal<SHA256Str>(
-			OSU_RESOURCES_DLL, CurrentBeatmapHash).Convert();
+			OSU_FRAMEWORK_DLL, CurrentBeatmapHash).Convert();
 	}
 
 };

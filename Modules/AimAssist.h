@@ -26,13 +26,13 @@ namespace AimAssistV1
 	*/
 
 	// do not modify cursor area multiplier. draws on hitObject.
-	inline double dStopCircleMultiplier = 0.5;
+	inline double dStopCircleMultiplier = 1.0;
 
 	// modify cursor area. Draws on cursor.
 	inline double dWorkCursorRadius = 128.0;
 
 	// Refresh Rate in microseconds.
-	inline long long dRefreshRate = 1'000'000 / 2880;
+	inline long long dRefreshRate = 1'000'000 / 288;
 
 	/*
 	Rulesets.
@@ -47,7 +47,7 @@ namespace AimAssistV1
 	// WorkCursorRadius * WorkRadMul = FinalWorkRad
 	inline double uWorkRadMul = 0.6;
 
-	inline double uSpeed = 3.5;
+	inline double uSpeed = 3.0;
 
 	void Routine();
 
