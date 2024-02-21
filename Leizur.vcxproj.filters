@@ -60,6 +60,9 @@
     <ClCompile Include="Protect\IATHook.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\Relax.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Process.h">
@@ -111,6 +114,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Protect\IATHook.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Relax.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

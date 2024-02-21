@@ -50,7 +50,7 @@ public:
 
 	double GetElaspedTime() {
 		return osuProcess.GetPointerChainVal<double>(
-			OSU_FRAMEWORK_DLL, ElaspedTimeGlobal) - 15.0;
+			OSU_FRAMEWORK_DLL, ElaspedTimeGlobal) - 30.0;
 	}
 
 	bool GetActive() {
@@ -72,6 +72,7 @@ namespace OsuLive {
 	inline std::string lastBeatmapHash = "No Beatmap";
 	inline double lastCS = 0.0;
 	inline Vector2 lastReq = INVALID_COORDS;
+	inline double elaspedTime = 0.0;
 
 	Vector2 Translate2OsuCoords(Vector2 realCoords);
 	Vector2 Translate2RealCoords(Vector2 osuCoords);

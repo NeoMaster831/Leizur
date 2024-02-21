@@ -74,6 +74,13 @@ Beatmap::Beatmap(std::string& hash) {
 	if (!Parse(stream)) throw 0x12000002;
 }
 
+TimingPoint::TimingPoint() {
+	this->inerhitPoint = nullptr;
+	this->time = 0.0;
+	this->beatLength = 100.0;
+	this->uninherited = true;
+}
+
 double TimingPoint::GetCurrentBeatLength() {
 	TimingPoint* ptr = this;
 	while (true) {
@@ -283,6 +290,14 @@ void Slider::Parse(std::string& str, Vector2 startPoint) {
 
 }
 
+HitObject::HitObject() {
+	this->c = Vector2{ -999999.9, -888888.8 };
+	this->sliderParam = Slider();
+	this->spinnerParam = Spinner();
+	this->type = 0;
+	this->time = 0.0;
+}
+
 void HitObject::Parse(std::string& str) {
 	auto obj = Split(str, ',');
 	this->c = Vector2{ std::stof(obj[0]), std::stof(obj[1]) };
@@ -317,7 +332,7 @@ TimingPoint Beatmap::GetCurrentTimingPoint(double elaspedTime) {
 		return *std::prev(it);
 	}
 	else if (it == this->timingPoints.begin()) {
-		throw 0x12000007;
+		return TimingPoint(); // return default, instead of throwing error
 	}
 	else {
 		return *std::prev(timingPoints.end());

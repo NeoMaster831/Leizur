@@ -159,6 +159,7 @@
     <ClCompile Include="Osu\Osu.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Modules\Relax.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Protect\IATHook.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Osu\OsuUtils.h" />
     <ClInclude Include="Osu\Osu.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="Modules\Relax.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

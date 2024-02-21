@@ -55,7 +55,7 @@ void Gdi::Begin() {
 
 void Gdi::Draw(Bitmap* pBitmap) {
 	Graphics graphics(pBitmap);
-	AimAssistV1::RenderGdi(&graphics);
+	//AimAssistV1::RenderGdi(&graphics);
 }
 
 void Gdi::Render() {

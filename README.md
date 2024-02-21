@@ -22,12 +22,15 @@ Also, it uses DirectX 9 and GDI+, if you can't run you should check those.
 
 Go project, build, and use. It requires [Visual Studio 2022](https://visualstudio.microsoft.com/ko/vs/).
 
+**NOTE**: It only works on fullscreen 1920x1080, unless you edit the code.
+
 ## To-Dos
 - [ ] Make Parser - *96.1%* (It's almost done, but it has so many bugs)
 + - [ ] Make Catmull Curve Parser (who tf uses catmull nowadays...)
 - [ ] Make Utilities - *10%*
-- [ ] Make Cheats - 0.2%
-+ - [ ] Make Aim Assist - 2%
+- [ ] Make Cheats - 0.4%
++ - [ ] Make Aim Assist - 2.1%
++ - [ ] Make Relax - 2% (TODO: Fix slider pre-releasing bug)
 - [x] Make Bypass - **DONE!**
 + - [ ] Make IAT Hook for protecting SetCursorPos, or something 
 - [ ] Make UI - *20%*

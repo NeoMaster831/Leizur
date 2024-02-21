@@ -69,6 +69,7 @@ public:
 	double beatLength;
 	bool uninherited;
 
+	TimingPoint();
 	TimingPoint(std::string& str, TimingPoint* previousTimingPoint) { Parse(str, previousTimingPoint); }
 	double GetCurrentBeatLength();
 	void Parse(std::string& str, TimingPoint* previousTimingPoint);
@@ -81,6 +82,7 @@ struct HitObject {
 	Slider sliderParam = Slider();
 	Spinner spinnerParam = Spinner();
 
+	HitObject();
 	HitObject(std::string& str) { Parse(str); }
 	void Parse(std::string& str);
 };

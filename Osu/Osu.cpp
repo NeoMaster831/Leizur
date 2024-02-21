@@ -17,6 +17,7 @@ void OsuLive::Update() {
 		currentBeatmap = Beatmap(lastBeatmapHash);
 JustUpdate:
 		auto elasped = osu.GetElaspedTime();
+		elaspedTime = elasped;
 		lastReq = currentBeatmap.GetReqCursorAtSpecificTime(elasped);
 		lastCS = currentBeatmap.CircleSize;
 	}

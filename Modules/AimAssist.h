@@ -1,6 +1,6 @@
 #pragma once
 #pragma warning( disable : 4267 4244 4101 )
-// AimAssist.h: Yep, Aim Assist. It uses
+// AimAssist.h: Yep, Aim Assist. It uses SetCursorPos to set position
 
 #include "../Osu/Osu.h"
 #include <gdiplus.h>
@@ -29,7 +29,7 @@ namespace AimAssistV1
 	inline double dStopCircleMultiplier = 1.0;
 
 	// modify cursor area. Draws on cursor.
-	inline double dWorkCursorRadius = 128.0;
+	inline double dWorkCursorRadius = 64.0;
 
 	// Refresh Rate in microseconds.
 	inline long long dRefreshRate = 1'000'000 / 288;
@@ -41,13 +41,13 @@ namespace AimAssistV1
 
 	// Stop Circle user multiplier. The final expression is:
 	// CurrentCircleRadius * StopCircleMultiplier * StopRadMul = FinalStopRad
-	inline double uStopRadMul = 0.5;
+	inline double uStopRadMul = 1.0;
 
 	// Work Cursor user multiplier. The final expression is:
 	// WorkCursorRadius * WorkRadMul = FinalWorkRad
-	inline double uWorkRadMul = 0.6;
+	inline double uWorkRadMul = 1.25;
 
-	inline double uSpeed = 3.0;
+	inline double uSpeed = 3.1;
 
 	void Routine();
 
