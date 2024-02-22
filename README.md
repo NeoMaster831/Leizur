@@ -5,14 +5,12 @@
 > *as fast as you can,*
 
 Leizur is open-source osu!lazer cheat, is under development.
-It is currently going on private.
+It is currently going on public.
 
 # Requirements
 
 As osu anticheat is on usermode, you can realize that if you go kernel, it'll be bypassed.
 So I did. To read process' memory, we use Hooked-`NtQueryCompositionSurfaceStatistics`.
-
-I protected my IAT table to 
 
 To use, you'll need to check out [this](https://github.com/NeoMaster831/rwDriver).
 
