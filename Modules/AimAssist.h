@@ -49,6 +49,14 @@ namespace AimAssistV1
 
 	inline double uSpeed = 3.1;
 
+	inline bool uAAToggle = true;
+	inline bool uAAToggleGdi = false;
+
+	// For GUI
+	inline float _uFStopRadMul = 1.0f;
+	inline float _uFWorkRadMul = 1.25f;
+	inline float _uFSpeed = 3.1f;
+
 	void Routine();
 
 	bool Check();

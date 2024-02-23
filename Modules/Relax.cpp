@@ -1,5 +1,17 @@
 #include "Relax.h"
 #include <thread>
+#include <random>
+
+#include "../ImGui/imgui.h"
+#include "../ImGui/imgui_impl_dx9.h"
+#include "../ImGui/imgui_impl_win32.h"
+
+double generateRandomDouble(double x, double y) {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(x, y);
+	return dis(gen);
+}
 
 void RelaxV1::Click(double delayMilli, int vKey) {
 
@@ -25,6 +37,7 @@ void RelaxV1::Click(double delayMilli, int vKey) {
 void RelaxV1::Routine() {
 	while (true) {
 		std::this_thread::sleep_for(std::chrono::microseconds(dRefreshRate));
+		if (!uRelaxToggle) continue;
 		try {
 			if (OsuLive::lastBeatmapHash == "No Beatmap"
 				|| OsuLive::currentBeatmap.Title == "null"
@@ -42,9 +55,9 @@ void RelaxV1::Routine() {
 		catch (int expn) {
 			continue;
 		}
-		auto currentTimingPoint = OsuLive::currentBeatmap.GetCurrentTimingPoint(elaspedTime);
 
 		auto currentObjTime = currentObject.time;
+		auto currentTimingPoint = OsuLive::currentBeatmap.GetCurrentTimingPoint(currentObjTime + 0.01);
 
 		if (!lQ.empty() && lQ.top().first < elaspedTime) {
 			if (!lAsync1.valid() ||
@@ -66,13 +79,16 @@ void RelaxV1::Routine() {
 			}
 		}
 
+		auto startRandomValue = generateRandomDouble(-uRandomizer, uRandomizer);
+		auto endRandomValue = generateRandomDouble(-uRandomizer, uRandomizer);
+
 		if (abs(currentObjTime - lLastHitObjectTime) > 1e-4) { // It means last object is changed
 			if (currentObject.type & (1 << 1)) { // Slider
 				lQ.push({
-					currentObjTime,
+					currentObjTime + startRandomValue,
 					currentObject.sliderParam.calculateDuration(OsuLive::currentBeatmap.SliderMultiplier,
 						currentTimingPoint.beatLength > 0.0 ? 1.0 : abs(100.0 / currentTimingPoint.beatLength),
-						currentTimingPoint.GetCurrentBeatLength()) });
+						currentTimingPoint.GetCurrentBeatLength()) - startRandomValue + endRandomValue });
 			}
 			else if (currentObject.type & (1 << 3)) { // Spinner
 				lQ.push({
@@ -81,11 +97,22 @@ void RelaxV1::Routine() {
 			}
 			else {
 				lQ.push({
-					currentObjTime,
-					uClickDelay });
+					currentObjTime + startRandomValue,
+					uClickDelay - startRandomValue + endRandomValue });
 			}
 		}
 
 		lLastHitObjectTime = currentObjTime;
 	}
+}
+
+void RelaxV1::RenderGui() {
+	ImGui::Text("Relax V1 Settings");
+	ImGui::Checkbox("uRelaxToggle", &uRelaxToggle);
+	ImGui::SliderFloat("uClickDelay", &_uFClickDelay, 0.0f, 50.0f, "%.1f");
+	ImGui::SliderFloat("uMaxAllow", &_uFMaxAllow, 0.0f, 75.0f, "%.1f");
+	ImGui::SliderFloat("uRandomizer", &_uFRandomizer, 0.0f, 50.0f, "%.1f");
+	uClickDelay = (double)_uFClickDelay;
+	uMaxAllow = (double)_uFMaxAllow;
+	uRandomizer = (double)_uFRandomizer;
 }

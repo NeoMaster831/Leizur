@@ -3,6 +3,10 @@
 #include "../GUI/Gdi.h"
 #include <thread>
 
+#include "../ImGui/imgui.h"
+#include "../ImGui/imgui_impl_dx9.h"
+#include "../ImGui/imgui_impl_win32.h"
+
 void GdiUtils::DrawCircle(Gdiplus::Graphics* pGraphics, Vector2 at, double radius, Color color);
 
 bool AimAssistV1::Check() {
@@ -89,13 +93,22 @@ void AimAssistV1::RenderGdi(Gdiplus::Graphics* pGraphics) {
 }
 
 void AimAssistV1::RenderGui() {
-
+	ImGui::Text("Aim Assist V1 Settings");
+	ImGui::Checkbox("uAAToggle", &uAAToggle);
+	ImGui::Checkbox("uAAToggleGdi", &uAAToggleGdi);
+	ImGui::SliderFloat("uWorkRadMul", &_uFWorkRadMul, 0.1f, 5.0f, "%.1f");
+	ImGui::SliderFloat("uStopRadMul", &_uFStopRadMul, 0.1f, 2.0f, "%.1f");
+	ImGui::SliderFloat("uSpeed", &_uFSpeed, 0.1f, 10.0f, "%.1f");
+	uWorkRadMul = (double)_uFWorkRadMul;
+	uStopRadMul = (double)_uFStopRadMul;
+	uSpeed = (double)_uFSpeed;
 }
 
 void AimAssistV1::Routine() {
 
 	while (true) {
 		std::this_thread::sleep_for(std::chrono::microseconds(dRefreshRate));
+		if (!uAAToggle) continue;
 		try {
 			if (OsuLive::lastBeatmapHash == "No Beatmap"
 				|| OsuLive::currentBeatmap.Title == "null"

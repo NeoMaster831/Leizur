@@ -28,8 +28,8 @@ Go project, build, and use. It requires [Visual Studio 2022](https://visualstudi
 - [ ] Make Utilities - *10%*
 - [ ] Make Cheats - 0.4%
 + - [ ] Make Aim Assist - 2.1%
-+ - [ ] Make Relax - 2% (TODO: Fix slider pre-releasing bug)
++ - [ ] Make Relax - 2.1% (TODO: make direction prediction, and fix some small errors)
 - [x] Make Bypass - **DONE!**
 + - [ ] Make IAT Hook for protecting SetCursorPos, or something 
-- [ ] Make UI - *20%*
+- [ ] Make UI - *25%*
 - [ ] Make GDI - *20.09%*
